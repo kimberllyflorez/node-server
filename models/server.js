@@ -1,13 +1,19 @@
 const express =require('express')
 const cors = require('cors');
+const { dbConection } = require('../db/config');
 class Server{
     constructor(){
     this.app = express();
     this.port = process.env.PORT;
-    this.usuariosRoutePath = '/api/usuarios';
+    this.usersRoutePath = '/api/users';
+
     this.middleware();
     this.routes();
+    this.conectDb();
 
+    }
+   async conectDb(){
+    await  dbConection();
     }
     middleware(){
         this.app.use(cors());
@@ -17,7 +23,7 @@ class Server{
         this.app.use(express.static('public'));
     }
     routes(){
-        this.app.use(this.usuariosRoutePath, require('../routes/users'));
+        this.app.use(this.usersRoutePath, require('../routes/users'));
     }
 
     listen(){
