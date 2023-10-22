@@ -19,12 +19,19 @@ img: {
 rol:{
         type: String,
         require:true,
-        enum: ['ADMIN_ROLE','USER_ROLE']
+        enum: ['ADMIN_ROL','USER_ROL']
 },
 state:{
     type:Boolean,
     default: true,
 },
-})
+});
+//METHOS TO REWRITE TH MONGOOSE MODEL 
 
+userSchema.methods.toJSON = function(){
+    //this is instance created 
+    //here we take out the fist two parameter and the rest is alocated in user
+    const {__v, password, ...user} = this.toObject(); 
+    return user;
+}
 module.exports = model('user', userSchema);

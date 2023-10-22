@@ -14,16 +14,11 @@ const usuariosGet= (req = request, res = response)=>{
     });
 
 }
-const usuariosPost = async (req, res = response)=>{
+const usuariosPost = async (req = request, res = response)=>{
     const {name, password, email, rol} = req.body;
     //validate
     const user = new User({name, password, email, rol});
-    const emailExist = await User.findOne({email});
-       if(emailExist){
-        return res.status(400).json({
-            msg: 'This Email already exist'
-        });
-    }
+   
     //Here encrypt
     const salt =  bcryptjs.genSaltSync();
     user.password =bcryptjs.hashSync(password, salt);
