@@ -2,16 +2,23 @@ const { response, request } = require('express');
 
 const User = require('../models/user');
 const bcryptjs = require('bcryptjs');
+const user = require('../models/user');
 
 
-const usuariosGet= (req = request, res = response)=>{
-    const {name, surname, age} = req.query;
-    res.json({
-        msg: 'get APi',
-        name,
-        surname,
-        age,
-    });
+const usuariosGet= async (req = request, res = response)=>{
+
+//  const {name, surname, age} = req.query;
+const {limit=5, from = 0 }=req.body;
+const query = {state : true};
+
+    const [total, users] = await Promise.all([
+        //primise . all execute dsimultanialy
+        User.countDocuments(query),
+        User.find(query)
+        .skip(Number(from))
+        .limit(Number(limit))
+    ]);
+    res.json({total, users});
 
 }
 const usuariosPost = async (req = request, res = response)=>{
@@ -30,12 +37,20 @@ const usuariosPost = async (req = request, res = response)=>{
     });
 
 }
-const usuariosPut= (req, res = response)=>{
+const usuariosPut= async (req, res = response)=>{
     const id = req.params.id;
-    res.json({
-        msg: 'post APi',
-       id
-    });
+    const {_id, password, google, ...resto}= req.body;//extract pass and goog from the rest of arguments
+
+    //validate against the db:  
+    if (password){
+        //change password
+        const salt = bcryptjs.genSaltSync();
+        resto.password = bcryptjs.hashSync(password, salt);
+    }
+//find by id: find by id whent got it chance the rest of data
+    const user = await User.findByIdAndUpdate(id, {state: false});
+
+    res.json(id);
 
 }
 const usuariosPatch= (req, res = response)=>{
@@ -43,9 +58,15 @@ const usuariosPatch= (req, res = response)=>{
         msg: 'patch APi'
     });
 }
-const usuarioDelete= (req, res)=>{
+const usuarioDelete= async (req, res)=>{
+
+    const {id }= req.params
+    //in this way we deklete the user fisical- worse
+    //const user = await User.findByIdAndDelete(id);
+    const user = await User.findByIdAndUpdate(id);
+
     res.json({
-        msg: 'delete api call'
+            id
     });
 
 }

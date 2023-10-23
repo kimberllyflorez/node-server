@@ -1,7 +1,7 @@
 const { Router } = require('express');
 const { check } = require('express-validator');
 const { validateFields } = require('../middlewares/validate-fields');
-const {  validateRol, validateEmail } = require('../helpers/db-validators');
+const {  validateRol, validateEmail, validateUserbyId, } = require('../helpers/db-validators');
 const { usuariosGet, 
         usuariosPost, 
         usuariosPatch,
@@ -26,9 +26,20 @@ router.post('/',[
 
 router.patch('/', usuariosPatch);
 
-router.delete('/', usuarioDelete);
+router.delete('/:id',[
+    check('id','This is not a mongo id').isMongoId(),
+    check('id').custom(validateUserbyId),
+    validateFields
+], usuarioDelete);
 
-router.put('/:id', usuariosPut);
+router.put('/:id',[
+    check('id','This is not a mongo id').isMongoId(),
+    check('rol').custom(validateRol),// if i lift this validation here it is gonna a be requered that usre input rol
+
+    check('id').custom(validateUserbyId),
+    validateFields
+
+], usuariosPut);
 
 
 module.exports = router;

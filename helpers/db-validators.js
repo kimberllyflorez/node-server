@@ -26,8 +26,17 @@ const validateEmail = async(email = '') =>{
 //     // });
 //  }
 }    
+const validateUserbyId = async(id = '') =>{
+    const idExist = await User.findById(id);
+    if(!idExist){
+        throw new Error(`This ID:${id} doesn't exist `);
+    }
+    
+
+} 
 
     module.exports = {
        validateRol,
-       validateEmail
+       validateEmail,
+       validateUserbyId
     }

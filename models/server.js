@@ -17,7 +17,6 @@ class Server{
     }
     middleware(){
         this.app.use(cors());
-
         //parce and read
         this.app.use(express.json());
         this.app.use(express.static('public'));
