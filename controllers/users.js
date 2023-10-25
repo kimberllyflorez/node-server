@@ -2,7 +2,7 @@ const { response, request } = require('express');
 
 const User = require('../models/user');
 const bcryptjs = require('bcryptjs');
-const user = require('../models/user');
+
 
 
 const usuariosGet= async (req = request, res = response)=>{
@@ -63,10 +63,11 @@ const usuarioDelete= async (req, res)=>{
     const {id }= req.params
     //in this way we deklete the user fisical- worse
     //const user = await User.findByIdAndDelete(id);
-    const user = await User.findByIdAndUpdate(id);
+    const user = await User.findByIdAndUpdate(id, {state: false});
 
     res.json({
-            id
+            id,
+            user
     });
 
 }
