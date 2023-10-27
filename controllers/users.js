@@ -25,14 +25,13 @@ const usuariosPost = async (req = request, res = response)=>{
     const {name, password, email, rol} = req.body;
     //validate
     const user = new User({name, password, email, rol});
-   
     //Here encrypt
     const salt =  bcryptjs.genSaltSync();
     user.password =bcryptjs.hashSync(password, salt);
    //here save in db
    await user.save();
     res.json({
-        msg: 'post APi',
+        msg: 'post success APi',
         user,
     });
 
@@ -55,21 +54,20 @@ const usuariosPut= async (req, res = response)=>{
 }
 const usuariosPatch= (req, res = response)=>{
     res.json({
-        msg: 'patch APi'
+        msg: 'patch APi success'
     });
 }
 const usuarioDelete= async (req, res)=>{
-
-    const {id }= req.params
+    const {id }= req.params;
+    const uid = req.uid;
     //in this way we deklete the user fisical- worse
     //const user = await User.findByIdAndDelete(id);
     const user = await User.findByIdAndUpdate(id, {state: false});
-
+    const userAuthenticated = req.user;
     res.json({
-            id,
-            user
+            user,
+            userAuthenticated
     });
-
 }
 module.exports = {
     usuariosGet,

@@ -3,6 +3,7 @@ const { check } = require('express-validator');
 
 const { validateFields } = require('../middlewares/validate-fields');
 const { validarJWT } = require('../middlewares/validar-jwt');
+const {validateUserRol} = require('../middlewares/validate-rol.js')
 
 const {  validateRol, validateEmail, validateUserbyId, } = require('../helpers/db-validators');
 const { usuariosGet, 
@@ -32,6 +33,7 @@ router.patch('/', usuariosPatch);
 
 router.delete('/:id',[
     validarJWT,
+    validateUserRol,
     check('id','This is not a mongo id').isMongoId(),
     check('id').custom(validateUserbyId),
     validateFields
