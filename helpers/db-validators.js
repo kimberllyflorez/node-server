@@ -3,10 +3,7 @@ const User = require('../models/user');
 
 const validateRol = async (rol='')=>{
     const existRol = await Rol.findOne({rol});
-    if(rol == null){
-        throw new  Error(`you must to describe your rol`)
-    }
-    else if(!existRol){
+     if(!existRol){
         throw new  Error(`role: ${rol} is not define in the database`)
         }
     }
