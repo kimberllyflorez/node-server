@@ -10,7 +10,7 @@ const validateUserRol =(req, res = response, next)=>{
   if (rol !== "ADMIN-ROL"){
     return res.status(401).json({
         mesj: "access denegate for this request "
-    })
+    });
   }
   next();
 }

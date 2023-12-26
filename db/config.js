@@ -2,8 +2,9 @@ const mongoose = require('mongoose');
 const dbConection = async ()=>{
     try {
         await mongoose.connect(process.env.MONGODB_CNN);
+        console.log('Data base online');
     }catch(err){
-        throw new Error('error when init data base');
+        throw new Error('Error when init data base');
     }
 }
 

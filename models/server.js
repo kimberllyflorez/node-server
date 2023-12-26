@@ -14,6 +14,9 @@ class Server{
 
     }
    async conectDb(){
+
+    //aqui se puede hacer dos conecciones si se tienen diferentes enviroments
+    
     await  dbConection();
     }
     middleware(){

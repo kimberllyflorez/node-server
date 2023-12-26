@@ -25,8 +25,12 @@ const userSchema = Schema({
         type:Boolean,
         default: true,
     },
+    google:{
+        type:Boolean,
+        default:true,
+    }
 });
-//METHOS TO REWRITE TH MONGOOSE MODEL 
+//METHOS TO REWRITE THE MONGOOSE MODEL 
 
 userSchema.methods.toJSON = function(){
     //this is instance created 
@@ -35,4 +39,4 @@ userSchema.methods.toJSON = function(){
     user.uid = _id;
     return user;
 }
-module.exports = model('user', userSchema);
+module.exports = model('User', userSchema);

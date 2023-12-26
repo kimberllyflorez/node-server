@@ -3,8 +3,11 @@ const User = require('../models/user');
 
 const validateRol = async (rol='')=>{
     const existRol = await Rol.findOne({rol});
-        if(!existRol){
-            throw new  Error(`role: ${rol} is not define in the database`)
+    if(rol == null){
+        throw new  Error(`you must to describe your rol`)
+    }
+    else if(!existRol){
+        throw new  Error(`role: ${rol} is not define in the database`)
         }
     }
 
@@ -28,7 +31,7 @@ const validateEmail = async(email = '') =>{
 }    
 const validateUserbyId = async(id = '') =>{
     const idExist = await User.findById(id);
-    if(!idExist){
+       if(!idExist){
         throw new Error(`This ID:${id} doesn't exist `);
     }
     
