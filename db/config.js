@@ -1,8 +1,8 @@
 const mongoose = require('mongoose');
 
-const dbConection =  ()=>{
+const dbConection = async  ()=>{
     try {
-         mongoose.connect(process.env.MONGODB_CNN);
+       await  mongoose.connect(process.env.MONGODB_CNN, { useNewUrlParser: true, useUnifiedTopology: true, ssl: true });
         console.log('Data base online');
     }catch(err){
         throw new Error('Error when init data base');
